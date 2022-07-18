@@ -17,7 +17,8 @@ var rob = function(nums) {
     for (let i = 2; i < nums.length; i++) {
         dp[i] = Math.max(nums[i] + dp[i - 2], dp[i - 1]);
     }
-    return Math.max(...dp);
+
+    return dp[len - 1];
 };
 
 // 状态转移方程
