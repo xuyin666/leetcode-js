@@ -16,5 +16,32 @@
  * @return {number}
  */
 var numDecodings = function(s) {
-    
+    let map = new Map();
+    return helper(s, map)
 };
+
+let helper = function(s, map) {
+    // if (s.length === 0) return 0;
+    // if (map.has(s)) return map.get(s);
+    // if (s.charAt(0) === '0') {
+    //     map.set(s, 0);
+    //     return 0;
+    // }
+    // if (s.length === 1) {
+    //     map.set(s, 1);
+    //     return 1;
+    // }
+    // if (s.length === 2 && s.substring(0, 2) >= '10' 
+    //                     && s.substring(0, 2) <= '26') {
+    //     map.set(s, 1);
+    //     return 1;
+    // }
+    // let sum = 0;
+    // let len = s.length;
+    // for (let i = 0; i < len; i++) {
+    //     let strl = s.substring(0, i);
+    //     let strr = s.substring(i, len);
+    //     sum += helper(strl, map) * helper(strr, map);
+    // }
+    // return sum;
+}
