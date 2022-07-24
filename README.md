@@ -22,3 +22,6 @@
 | 11 | 2022-07-21 | 152. Maximum Product Subarray | Dynamic Programming | Medium | 1
 | 12 | 2022-07-23 | 647. Palindromic Substrings | Dynamic Programming | Medium | 1
 | 13 | 2022-07-23 | 91. Decode Ways | Dynamic Programming | Medium | 1
+| 14 | 2022-07-23 | 62. Unique Paths | Dynamic Programming | Medium | 1
+| 15 | 2022-07-23 | 1143. Longest Common Subsequence | Dynamic Programming | Medium | 1
+| 16 | 2022-07-24 | 322-coinChange | Dynamic Programming | Medium | 1
