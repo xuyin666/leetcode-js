@@ -9,44 +9,47 @@
  * @return {boolean}
  */
 var isAnagram = function(s, t) {
-    let hashMap = new Map();
     let lenS = s.length;
     let lenT = t.length;
+
+    if (lenS !== lenT) return false;
+
+    let hashMapS = new Map();
+    let hashMapT = new Map();
+
+    let ch;
+
     for (let i = 0; i < lenS; i++) {
-        let ch = s.charAt(i);
-        if (hashMap.has(ch)) {
-            let oldValue = hashMap.get(ch);
-            hashMap.set(ch, oldValue + 1);
+        ch = s.charAt(i);
+        if (hashMapS.has(ch)) {
+            let oldValue = hashMapS.get(ch);
+            hashMapS.set(ch, oldValue + 1);
         } else {
-            hashMap.set(ch, 1);
+            hashMapS.set(ch, 1);
+        }
+
+        ch = t.charAt(i);
+        if(hashMapT.has(ch)) {
+            let oldValue = hashMapT.get(ch);
+            hashMapT.set(ch, oldValue + 1);
+        } else {
+            hashMapT.set(ch, 1);
         }
     }
-    for (let i = 0; i < lenT; i++) {
-        let ch = t.charAt(i);
-        if(hashMap.has(ch)) {
-            let oldValue = hashMap.get(ch);
-            hashMap.set(ch, oldValue - 1);
-        } else {
+
+    for (const key of hashMapS.keys()) {
+        if (hashMapS.get(key) !== hashMapT.get(key))
             return false;
-        }
     }
-    if (lenS <= lenT) {
-        for (let i = 0; i < lenT; i++) {
-            let ch = t.charAt(i);
-            if(hashMap.get(ch) !== 0) {
-                return false
-            }
-        }
-    } else {
-        for (let i = 0; i < lenS; i++) {
-            let ch = s.charAt(i);
-            if(hashMap.get(ch) !== 0) {
-                return false
-            }
-        }
-    }
+
     return true;
 };
+
+// 先比较两个字符串的长度，如果长度不同直接返回false
+// 然后把每个字符串中，字符出现的次数记下来，分别记录在两个hashMap中
+// 再比较这两个hashMap是否相同
+
+// 将两个string排序 然后再比较是否相同
 
 let s = "anagram", t = "nagaram";
 let s1 = "rat", t1 = "car";
