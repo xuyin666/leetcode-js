@@ -25,3 +25,6 @@
 | 14 | 2022-07-23 | 62. Unique Paths | Dynamic Programming | Medium | 1
 | 15 | 2022-07-23 | 1143. Longest Common Subsequence | Dynamic Programming | Medium | 1
 | 16 | 2022-07-24 | 322-coinChange | Dynamic Programming | Medium | 1
+| 17 | 2022-07-26 | 49 group Anagrams | Arrays & Hashing | Medium | 1
+| 18 | 2022-07-26 | 242 valid anagram | Arrays & Hashing | Medium | 1
+| 29 | 2022-07-26 | 347 top k frequent element | Arrays & Hashing | Medium | 1
