@@ -1,4 +1,5 @@
 // o(log(n)) nums sorted array
+// search的条件好像都是 while(l <= r)
 
 let binarySearch = function (nums, target) {
     let l = 0, r = nums.length - 1;
