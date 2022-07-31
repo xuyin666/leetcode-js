@@ -11,24 +11,44 @@
  * @param {number[]} nums
  * @return {number}
  */
+
+// 用递归的思路在看 
+// 如果 nums[left] <= nums[right] 最小值就是nums[left]
 var findMin = function(nums) {
-    let l = 0, r = nums.length - 1;
-    let res = nums[0];
-    while (l <= r) {
-        let mid = Math.floor((l + r) / 2)
-        if (nums[l] <= nums[r]) {
-            res = Math.min(res, nums[l])
-            break;
-        } else {
-            res = Math.min(res, nums[mid])
-            if (nums[mid] >= nums[l]) 
-                l = mid + 1;
-            else 
-                r = mid - 1;
-        }   
-    }
-    return res;
-};
+    return helper(nums, 0, nums.length - 1);
+}
+
+let helper = function(nums, start, end) {
+    if (start === end || start + 1 === end)
+        return Math.min(nums[start], nums[end]);
+    
+    if (nums[start] <= nums[end]) 
+        return nums[start];
+
+    let mid = Math.floor((start + end) / 2);
+    return Math.min(helper(nums, start, mid), helper(nums, mid + 1, end));
+}
+
+
+
+// var findMin = function(nums) {
+//     let l = 0, r = nums.length - 1;
+//     let res = nums[0];
+//     while (l <= r) {
+//         let mid = Math.floor((l + r) / 2)
+//         if (nums[l] <= nums[r]) {
+//             res = Math.min(res, nums[l])
+//             break;
+//         } else {
+//             res = Math.min(res, nums[mid])
+//             if (nums[mid] >= nums[l]) 
+//                 l = mid + 1;
+//             else 
+//                 r = mid - 1;
+//         }   
+//     }
+//     return res;
+// };
 
 // 这道题 我没有真正的理解的理解透彻
 // 大致理解
