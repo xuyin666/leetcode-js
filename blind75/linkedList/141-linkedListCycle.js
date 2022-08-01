@@ -17,8 +17,23 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    
+    let slow = head;
+    let fast = head;
+
+    // to ensure that fast doesn't arrive the end
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow === fast) return true;
+    }
+    // it means that the fast pointer doesn't catch the slow pointer
+    return false;
 };
+
+// 这道题 主要是运用快慢指针
+// 一个指针快，一个指针慢
+// 快指针一定会追上慢指针，O(n) n代表环的长度
+// 没有追上则代表没有环，追上了则代表有环
 
 let head = [3,2,0,-4], pos = 1;
 let head1 = [1,2], pos1 = 0;
