@@ -26,6 +26,12 @@ var invertTree = function(root) {
     return root;
 };
 
+
+// 这道题思路用递归
+// 到了null 则返回null
+// 不然的话 先颠倒左右分支
+// 然后再用同样的函数对于左右分支
+
 let root = [4,2,7,1,3,6,9];
 let root1 = [2,1,3];
 let root2 = []
