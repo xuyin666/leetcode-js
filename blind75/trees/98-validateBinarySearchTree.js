@@ -19,8 +19,23 @@
  * @return {boolean}
  */
 var isValidBST = function(root) {
-    
+    return valid(root, Number.NEGATIVE_INFINITY, Number.MAX_VALUE);
 };
+
+let valid = function(root, left, right) {
+    if (root === null) return true;
+    if (root.val > left && root.val < right)
+        return (valid(root.left, left, root.val) &&
+                valid(root.right, root.val, right))
+    return false;
+}
+
+// IMPORTANT: 0 > Numberic.MIN_VALUE
+
+// 这道题的思路是限制区间 最开始的root的区间是 -inf ~ +inf
+// root.right 的区间是 -inf ~ root.val
+// root.left 的区间好似 root.val ~ +inf
+// 逐渐往下推 确认每个node都在区间内
 
 let root = [2,1,3];
 let root1 = [5,1,4,null,null,3,6];
