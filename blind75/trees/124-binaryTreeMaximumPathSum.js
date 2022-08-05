@@ -17,8 +17,26 @@
  * @return {number}
  */
 var maxPathSum = function(root) {
-    
+    let res = [root.val]
+    let dfs = function(root) {
+        if (root === null) return 0;
+        // the max value without splitting
+        let leftVal=  dfs(root.left);
+        let rightVal = dfs(root.right);
+        // if leftVal < 0 || rightVal < 0, we will not add them 
+        leftVal = Math.max(leftVal, 0);
+        rightVal = Math.max(rightVal, 0);
+        res[0] = Math.max(leftVal + rightVal + root.val, res[0]);
+        return root.val + Math.max(leftVal, rightVal);
+    }
+    dfs(root);
+    return res[0];
 };
+
+// 这道题思路是dfs 然后 讨论两种情况
+// split 或者 不split
+// split 必须是同一个方向的
+// 不split的意思是带着root
 
 let root = [1,2,3];
 let root1 = [-10,9,20,null,null,15,7];
