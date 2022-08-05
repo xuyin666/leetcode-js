@@ -13,8 +13,28 @@
  * @param {TreeNode} root
  * @return {number[][]}
  */
+
+// Breath Frist Search
+// use a queue
 var levelOrder = function(root) {
-    
+    let queue = [];
+    let res = [];
+    if (root === null) return res;
+    queue.push(root);
+    while (queue.length !== 0) {
+        let len = queue.length;
+        let levelNode = [];
+        for (let i = 0; i < len; i++) {
+            let topEle = queue.shift();
+            levelNode.push(topEle.val);
+            if (topEle.left !== null) 
+                queue.push(topEle.left);
+            if (topEle.right !== null)
+                queue.push(topEle.right);
+        }
+        res.push(levelNode);
+    }
+    return res;
 };
 
 let root = [3,9,20,null,null,15,7];
