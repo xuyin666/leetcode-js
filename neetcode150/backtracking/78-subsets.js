@@ -21,6 +21,11 @@ var subsets = function(nums) {
     return res;
 };
 
+// 这道题思路就是backtracking
+// 用一个i 来记录当前数组的位置 然后计算是否继续
+// 取nums[i] 还是不取nums[i]
+// 无论去还是不取 i++
+
 let nums = [1,2,3];
 let nums1 = [0];
 console.log(subsets(nums));
