@@ -10,8 +10,33 @@
  * @return {number[][]}
  */
 var combinationSum = function(candidates, target) {
-    
+    let res = [];
+    let dfs = function(index, curr, total) {
+        // index depass the limit
+        if (index >= candidates.length || total > target)
+            return;
+        if (total === target) {
+            res.push([...curr]);
+            return;
+        }
+        // take the candidates[index]
+        curr.push(candidates[index])
+        dfs(index, curr, total + candidates[index])
+        // if we don't take the candidates[index]
+        curr.pop();
+        dfs(index + 1, curr, total);
+    }
+    dfs(0, [], 0);
+    return res;
 };
+
+// 用个dfs()
+// 用i来代表当前的index, 用curr代表当前的数组，用total代表当前的全部
+// dfs(i, curr, total)
+// 初始化 dfs(0, [], 0);
+// 从0开始，当前数组为空，总和为0 
+
+
 
 let candidates = [2,3,6,7], target = 7;
 let candidates1 = [2,3,5], target1 = 8;
