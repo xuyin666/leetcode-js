@@ -17,8 +17,21 @@
  * @param {TreeNode} root
  * @return {string}
  */
+
+// 我们可以用 dfs preorder来遍历 然后遇到null，储存一个n，不然的话直接存值
 var serialize = function(root) {
-    
+    let arr = [];
+    let dfs = function(root) {
+        if (root === null) 
+            arr.push('N')
+        else {
+            arr.push('' + root.val)
+            dfs(root.left)
+            dfs(root.right)
+        }
+    }
+    dfs(root);
+    return arr.join(',')
 };
 
 /**
@@ -27,15 +40,33 @@ var serialize = function(root) {
  * @param {string} data
  * @return {TreeNode}
  */
+// 可以用一个全局变量i 来代表 在当前数组的位置
+// 因为 当一个子节点结束时，我们在之前的serialize中用N来代替了
+// 所以不会有模凌两可的情况
 var deserialize = function(data) {
-    
+    let arr = data.split(',');
+    let i = 0;
+    let dfs = function(arr) {
+        if (arr[i] === 'N') {
+            i++;
+            return null;
+        }
+        let root = new TreeNode(arr[i]);
+        i++;
+        let leftTree = dfs(arr);
+        let rightTree = dfs(arr);
+        root.left = leftTree;
+        root.right = rightTree;
+        return root;
+    }
+    let rootElem = dfs(arr);
+    return rootElem;
 };
 
 /**
  * Your functions will be called as such:
  * deserialize(serialize(root));
  */
-
 
 let root = [1,2,3,null,null,4,5];
 let root1 = [];
