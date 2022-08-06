@@ -9,7 +9,28 @@
  * @return {number[][]}
  */
 var combinationSum2 = function(candidates, target) {
-    
+    let res = [];
+    candidates.sort();
+    let dfs = function(index, curr, total) {
+        if (total > target || index >= candidates.length) return;
+        if (total === target) {
+            res.push([...curr]);
+            return;
+        }
+        // take the index element
+        curr.push(candidates[index]);
+        // every element is used for once
+        dfs(index + 1, curr, total + candidates[index]);
+        curr.pop();
+        // when we will not take the index element
+        // to avoid the duplicate element 
+        while (index + 1 < candidates.length && candidates[index] === candidates[index + 1]) {
+            index++;
+        }
+        dfs(index + 1, curr, total);
+    }
+    dfs(0, [], 0);
+    return res;
 };
 
 let candidates = [10,1,2,7,6,1,5], target = 8;
