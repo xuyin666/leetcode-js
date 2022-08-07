@@ -8,9 +8,28 @@
  * @return {boolean}
  */
 var isNStraightHand = function(hand, groupSize) {
-    
+    hand.sort(function(a, b){return a - b});
+    if (hand.length % groupSize !== 0) return false;
+    while (hand.length !== 0) {
+        let firstElem = hand[0];
+        for (let i = firstElem; i < firstElem + groupSize; i++) {
+            let index = hand.indexOf(i);
+            if (index !== -1)
+                hand.splice(index, 1);
+            else
+                return false;
+        }
+    }
+    return true;
 };
 
+// 这题的思路
+// 如果hand的数量不是 groupSize的倍数，直接返回false 
+// 先排个序
+// 然后在遍历这个hand
+// 每一个值i 从 i 到 i + groupSize
+// 如果存在，则从hand中删除
+// 如果不存在，则返回false
 let hand = [1,2,3,6,2,3,4,7,8], groupSize = 3;
 let hand1 = [1,2,3,4,5], groupSize1 = 4;
 console.log(isNStraightHand(hand, groupSize));
