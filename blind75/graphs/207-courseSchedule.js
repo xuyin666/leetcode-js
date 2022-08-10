@@ -9,10 +9,49 @@
  * @return {boolean}
  */
 var canFinish = function(numCourses, prerequisites) {
-    
+    let hashMap = new Map();
+    for (let i = 0; i < prerequisites.length; i++) {
+        if (!hashMap.has(prerequisites[i][0])) {
+            hashMap.set(prerequisites[i][0], [prerequisites[i][1]])
+        } else {
+            let arr = hashMap.get(prerequisites[i][0]);
+            arr.push(prerequisites[i][1]);
+            hashMap.set(prerequisites[i][0], arr)
+        }
+    }
+    let visit = new Set();
+
+    let dfs = function(index) {
+        // it means that there is a loop
+        // 当前这个branch经过了这个index
+        if (visit.has(index)) {
+            return false;
+        }
+        // it means that we arrive in the leave (which doesn't have a child node)
+        if (hashMap.get(index) === undefined) 
+            return true;
+
+        visit.add(index);
+        let arr = hashMap.get(index) 
+        let res = true;
+        // 结果有一个false就都得为false
+        for (let i = 0; i < arr.length; i++) {
+            res = res && dfs(arr[i]);
+        }
+        hashMap.delete(index);
+        visit.delete(index);
+        return res;
+    }
+
+
+    for (let i = 0; i < numCourses; i++) {
+        if (!dfs(i))
+            return false;
+    }
+    return true;
 };
 
-let numCourses = 2, prerequisites = [[1,0]];
+let numCourses = 3, prerequisites = [[1,0],[1,2],[0,1]];
 let numCourses1 = 2, prerequisites1 = [[1,0],[0,1]];
 console.log(canFinish(numCourses, prerequisites));
-console.log(canFinish(numCourses1, prerequisites1));
+// console.log(canFinish(numCourses1, prerequisites1));
