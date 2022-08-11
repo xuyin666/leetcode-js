@@ -11,12 +11,79 @@
  * @return {string}
  */
 var alienOrder = function(words) {
+    let allMap = new Map();
+    for (let word of words) {
+        for (let ch of word) {
+            if (!allMap.has(ch)) {
+                let newSet = new Set();
+                allMap.set(ch, newSet);
+            }
+        }
+    }
+    let wordsLen = words.length;
+    for (let i = 1; i < wordsLen; i++) {
+        let word1 = words[i - 1];
+        let word2 = words[i];
+        let lenWord1 = word1.length;
+        let lenWord2 = word2.length;
+        // word1 has the same head as word2 
+        // word1 longer than word2 
+        // but word1 is before word2 
+        if (lenWord1 > lenWord2 && 
+            word1.substring(0, lenWord2) === word2.substring(0, lenWord2)) {
+            return "";
+        }
+        let minLen = Math.min(lenWord1, lenWord2);
+        for (let j = 0; j < minLen; j++) {
+            if (word1.charAt(j) !== word2.charAt(j)) {
+                let aSet = allMap.get(word1.charAt(j));
+                aSet.add(word2.charAt(j));
+                allMap.set(word1.charAt(j), aSet);
+                break;
+            }
+        }
+    }
+    let visit = {}; // false = visited, true = in path;
+    let res = [];
+    // dfs postOrder;
+    // dfs 的作用是 第一 判断是否有环
+    // 如果有环的话返回true，没环的话返回false，
+    // 在res中加入对应的ch
+    let dfs = function(ch) {
+        if (ch in visit) 
+            return visit[ch];
+
+        visit[ch] = true;
+        let newSet = allMap.get(ch);
+        if (newSet !== undefined) {
+            for (let elem of newSet) {
+                if (dfs(elem)) {
+                    return true;
+                }
+            }
+        }
+        visit[ch] = false;
+        res.push(ch); 
+    }    
+    for (const key of allMap.keys()) {
+        if (dfs(key))
+            return "";
+    }
+    return res.reverse().join("");
+    
 
 };
 
+// 思路是先把每个字母的顺序记下来
+// 比如说 w < e < r 
+// t < f 等等
+// 接下来再dfs postorder遍历一遍
+// 得reverse order一下最后
+// 用一个visit false 代表visit了 true 代表visit 并且正在这个path中
+
 let words = ["wrt","wrf","er","ett","rftt"];
 let words1 = ["z","x"];
-let words2 = ["z","x","z"];
+let words2 = ["ri","xz","qxf","jhsguaw","dztqrbwbm","dhdqfb","jdv","fcgfsilnb","ooby"];
 console.log(alienOrder(words));
 console.log(alienOrder(words1));
 console.log(alienOrder(words2));
