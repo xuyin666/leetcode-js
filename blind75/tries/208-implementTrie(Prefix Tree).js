@@ -7,8 +7,14 @@
 // boolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise.
 
 
+function TrieNode() {    
+    this.neighbors = new Map();
+    this.wordEnd = false;
+}
+
 var Trie = function() {
-    
+    this.root = new TrieNode();
+    return this;
 };
 
 /** 
@@ -16,7 +22,15 @@ var Trie = function() {
  * @return {void}
  */
 Trie.prototype.insert = function(word) {
-    
+    let curr = this.root;
+    for (let ch of word) {
+        if (!curr.neighbors.has(ch)) {
+            let aNode = new TrieNode();
+            curr.neighbors.set(ch, aNode);
+        }
+        curr = curr.neighbors.get(ch);
+    }
+    curr.wordEnd = true;
 };
 
 /** 
@@ -24,7 +38,14 @@ Trie.prototype.insert = function(word) {
  * @return {boolean}
  */
 Trie.prototype.search = function(word) {
-    
+    let curr = this.root;
+    for (let ch of word) {
+        if (!curr.neighbors.has(ch)) {
+            return false;
+        }
+        curr = curr.neighbors.get(ch);
+    }
+    return curr.wordEnd;
 };
 
 /** 
@@ -32,7 +53,14 @@ Trie.prototype.search = function(word) {
  * @return {boolean}
  */
 Trie.prototype.startsWith = function(prefix) {
-    
+    let curr = this.root;
+    for (let ch of prefix) {
+        if (!curr.neighbors.has(ch)) {
+            return false;
+        }
+        curr = curr.neighbors.get(ch);
+    }
+    return true;
 };
 
 /** 
