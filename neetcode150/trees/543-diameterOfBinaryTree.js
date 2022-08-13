@@ -16,8 +16,26 @@
  * @return {number}
  */
 var diameterOfBinaryTree = function(root) {
-    
+    // 这道题的思路是得知道 当node为null时，高度为-1
+    // res = 经过这点的最大值 with split
+    let res = 0;
+     
+    // 不split node时height的最大值
+    let dfs = function(node) {
+        if (node === null) return -1;
+        let leftPath = dfs(node.left);
+        let rightPath = dfs(node.right);
+        res = Math.max(res, 2 + leftPath + rightPath);
+        return 1 + Math.max(leftPath, rightPath);
+    }
+
+    dfs(root);
+    return res;
+
 };
+
+
+
 
 let root = [1,2,3,4,5];
 let root1 = [1,2];
