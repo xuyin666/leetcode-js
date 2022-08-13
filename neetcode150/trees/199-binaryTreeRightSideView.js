@@ -14,7 +14,26 @@
  * @return {number[]}
  */
 var rightSideView = function(root) {
-    
+    // bfs
+    // get the first elem of the queue 
+    let queue = [];
+    let res = [];
+    queue.push(root)
+    while (queue.length !== 0) {
+        let len = queue.length;
+        let lastElem;
+        for (let i = 0; i < len; i++) {
+            let node = queue.shift();
+            if (node) {
+                queue.push(node.left);
+                queue.push(node.right);
+                lastElem = node.val;
+            }
+        }
+        if (lastElem !== undefined)
+            res.push(lastElem);
+    }
+    return res;
 };
 
 let root = [1,2,3,null,5,null,4];
