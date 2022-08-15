@@ -8,8 +8,12 @@
 // int getMin() retrieves the minimum element in the stack.
 // You must implement a solution with O(1) time complexity for each function.
 
+
+// 这道题的思路是用两个stack，一个记录正常值，一个记录最小值
 var MinStack = function() {
-    
+    this.valStack = [];
+    this.minValStack = [];
+    return this;
 };
 
 /** 
@@ -17,28 +21,40 @@ var MinStack = function() {
  * @return {void}
  */
 MinStack.prototype.push = function(val) {
-    
+    this.valStack.push(val);
+    if (this.minValStack.length === 0) {
+        this.minValStack.push(val);
+    } else {
+        // we need to check if val is smaller than the top element or not
+        let topMinVal = this.minValStack[this.minValStack.length - 1];
+        if (val < topMinVal) {
+            this.minValStack.push(val);
+        } else {
+            this.minValStack.push(topMinVal);
+        }
+    }
 };
 
 /**
  * @return {void}
  */
 MinStack.prototype.pop = function() {
-    
+    this.valStack.pop();
+    this.minValStack.pop();
 };
 
 /**
  * @return {number}
  */
 MinStack.prototype.top = function() {
-    
+    return this.valStack[this.valStack.length - 1];
 };
 
 /**
  * @return {number}
  */
 MinStack.prototype.getMin = function() {
-    
+    return this.minValStack[this.minValStack.length - 1];
 };
 
 /** 
