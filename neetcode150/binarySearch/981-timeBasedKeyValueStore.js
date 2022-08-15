@@ -7,7 +7,8 @@
 
 
 var TimeMap = function() {
-    
+    this.hashMap = new Map();
+    return this;
 };
 
 /** 
@@ -17,7 +18,12 @@ var TimeMap = function() {
  * @return {void}
  */
 TimeMap.prototype.set = function(key, value, timestamp) {
-    
+    if (!this.hashMap.has(key)) {
+        this.hashMap.set(key, []);
+    }
+    let arr = this.hashMap.get(key);
+    arr.push([value, timestamp]);
+    this.hashMap.set(key, arr);
 };
 
 /** 
@@ -26,7 +32,26 @@ TimeMap.prototype.set = function(key, value, timestamp) {
  * @return {string}
  */
 TimeMap.prototype.get = function(key, timestamp) {
-    
+    if (!this.hashMap.has(key)) {
+        return "";
+    } else {
+        let res = "";
+        // the value is already in increasing order by the timestamp
+        let arr = this.hashMap.get(key);
+        let left = 0, right = arr.length - 1;
+        while (left <= right) {
+            let mid = Math.floor((left + right) / 2);
+            if (arr[mid][1] <= timestamp) {
+                // in this way we can get the value associated with the closest timestamp 
+                res = arr[mid][0];
+                left = mid + 1;
+            } else {
+                // arr[mid][1] is too bigger, not satisfied value;
+                right = mid - 1;               
+            }
+        }
+        return res;
+    }
 };
 
 /** 
