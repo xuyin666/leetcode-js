@@ -6,7 +6,21 @@
  * @return {number[]}
  */
 var dailyTemperatures = function(temperatures) {
-    
+    // 这道题的思路是用stack
+    // 把如果当前温度比栈顶的温度高 就pop()
+    // 不然的话就push，(index, temperature)
+    let res = new Array(temperatures.length).fill(0);
+    let stack = [];
+    for (let i = 0; i < temperatures.length; i++) {
+        while(stack.length > 0 && 
+            temperatures[i] > stack[stack.length - 1][1]) {
+            let index = stack[stack.length - 1][0]
+            res[index] = i - index;
+            stack.pop();        
+        }
+        stack.push([i, temperatures[i]]);
+    }
+    return res;
 };
 
 let temperatures = [73,74,75,71,69,72,76,73];
