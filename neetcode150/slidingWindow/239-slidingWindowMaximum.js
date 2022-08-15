@@ -8,7 +8,16 @@
  * @return {number[]}
  */
 var maxSlidingWindow = function(nums, k) {
-    
+    let start = 0;
+    let end = start + k - 1;
+    let res = [];
+    while (end < nums.length) {
+        let newArr = nums.slice(start, end + 1);
+        res.push(Math.max(...newArr));
+        start = start + 1;
+        end = start + k - 1;
+    }
+    return res;
 };
 
 let nums = [1,3,-1,-3,5,3,6,7], k = 3;
