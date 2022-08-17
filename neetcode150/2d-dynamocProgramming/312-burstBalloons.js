@@ -8,7 +8,27 @@
  * @return {number}
  */
 var maxCoins = function(nums) {
-    
+    // this will be the new border 
+    nums.push(1);
+    nums.unshift(1);
+    // dfs means we will push the i in the last
+    // 因为是最后推的，所以他等于最右边的*最左边*自己的值
+    // 在把他自己分成两份
+    let dp = new Map();
+    let dfs = function(l, r) {
+        let str = l + "," + r;
+        if (dp.has(str)) return dp.get(str);
+        if (l > r) return 0;
+        let res = -1;
+        for (let i = l; i <= r; i++) {
+            let total = nums[l - 1] * nums[i] * nums[r + 1];
+            total = total + dfs(l, i - 1) + dfs(i + 1, r);
+            res = Math.max(total, res);
+        }
+        dp.set(str, res);
+        return res;
+    }
+    return dfs(1, nums.length - 2);
 };
 
 let nums = [3,1,5,8];
