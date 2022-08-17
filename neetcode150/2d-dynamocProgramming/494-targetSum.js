@@ -10,7 +10,19 @@
  * @return {number}
  */
 var findTargetSumWays = function(nums, target) {
-    
+    let dp = new Map();
+    let backtracking = function(target, index) {
+        let str = target + "," + index;
+        if (dp.has(str)) return dp.get(str);
+        if (target === 0 && index === -1) return 1;
+        if (index < 0) return 0;
+        let res = 0;
+        res = backtracking(target + nums[index], index - 1) +
+                backtracking(target - nums[index], index - 1);
+        dp.set(str, res);
+        return res;
+    }
+    return backtracking(target, nums.length - 1);
 };
 
 let nums = [1,1,1,1,1], target = 3;
