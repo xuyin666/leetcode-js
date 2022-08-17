@@ -14,12 +14,30 @@
  * @return {boolean}
  */
 var isInterleave = function(s1, s2, s3) {
-    
+    if (s1.length + s2.length !== s3.length) return false;
+    let dp = new Map();
+    let backtracking = function(i, j) {
+        let str = i + "," + j;
+        if (dp.has(str)) return dp.get(str);
+        if (i === s1.length && j === s2.length) 
+            return true;
+        if (i < s1.length && s1.charAt(i) === s3.charAt(i + j) && backtracking(i + 1, j)) {
+            dp.set(str, true);
+            return true;
+        }
+        if (j < s2.length && s2.charAt(j) === s3.charAt(i + j) && backtracking(i, j + 1)) {
+            dp.set(str, true);
+            return true;
+        }
+        dp.set(str, false);
+        return false;
+    }
+    return backtracking(0, 0);
 };
 
 let s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac";
 let s4 = "aabcc", s5 = "dbbca", s6 = "aadbbbaccc";
-let s7 = "", s8 = "", s9 = "";
-console.log(isInterleave(s1, s2, s3));
-console.log(isInterleave(s4, s5, s6));
+let s7 = "", s8 = "", s9 = "a";
+// console.log(isInterleave(s1, s2, s3));
+// console.log(isInterleave(s4, s5, s6));
 console.log(isInterleave(s7, s8, s9));
