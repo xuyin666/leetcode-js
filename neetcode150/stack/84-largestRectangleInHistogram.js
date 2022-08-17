@@ -12,13 +12,17 @@ var largestRectangleArea = function(heights) {
     let stack = [];
     let res = 0;
     for (let i = 0; i < heights.length; i++) {
+        let arr;
         while (stack.length > 0 && 
                 heights[i] < stack[stack.length - 1][1]) {
-            let arr = stack.pop();
+            arr = stack.pop();
             // 这是被推出元素的最大面积
             res = Math.max(res, (i - arr[0]) * arr[1]);
         }
-        stack.push([i, heights[i]])
+        if (arr !== undefined)
+            stack.push([arr[0], heights[i]])
+        else 
+            stack.push([i, heights[i]])
     }
     // 有些元素无法被推出，则代表他们一直都结尾都没有遇到比他们更大的
     while (stack.length > 0) {
@@ -30,5 +34,8 @@ var largestRectangleArea = function(heights) {
 
 let heights = [2,1,5,6,2,3];
 let heights1 = [2,4];
+let heights2 = [2,1,2];
 console.log(largestRectangleArea(heights));
 console.log(largestRectangleArea(heights1));
+console.log(largestRectangleArea(heights2));
+
