@@ -10,7 +10,20 @@
  * @return {number}
  */
 var change = function(amount, coins) {
-    
+    let hashMap = new Map();
+    let backtracking = function(amount, end) {
+        let str = amount + "," + end;
+        if (hashMap.has(str)) return hashMap.get(str)
+        if (amount < 0) return 0;
+        if (amount === 0) return 1;
+        let res = 0;
+        for (let i = end; i >= 0; i--) {
+            res += backtracking(amount - coins[i], i)
+        }
+        hashMap.set(str, res);
+        return res;
+    }
+    return backtracking(amount, coins.length - 1);
 };
 
 let amount = 5, coins = [1,2,5];
