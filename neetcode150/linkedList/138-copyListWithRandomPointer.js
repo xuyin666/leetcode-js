@@ -22,7 +22,28 @@
  * @return {Node}
  */
 var copyRandomList = function(head) {
-    
+    // 这道题的思路是遍历两次
+    // 第一次是用来创造那个hashmap，根据遍历的值来创造一个新的node
+    // 然后把这个新的node放入到hashmap中，key则为旧的hashmap
+    // 第二次遍历则是创造链接
+    let curr = head;
+    let hashMap = new Map();
+    // for the edge case, if the oldNode is null, we need to return null
+    hashMap.set(null, null);
+    while(curr !== null) {
+        let newNode = new Node(curr.val);
+        hashMap.set(curr, newNode);
+        curr = curr.next;
+    }
+
+    curr = head;
+    while (curr !== null) {
+        let newNode = hashMap.get(curr);
+        newNode.next = hashMap.get(curr.next);
+        newNode.random = hashMap.get(curr.random);
+        curr = curr.next;
+    }
+    return hashMap.get(head);
 };
 
 let head = [[7,null],[13,0],[11,4],[10,2],[1,0]];
