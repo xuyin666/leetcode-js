@@ -8,7 +8,29 @@
  * @return {number}
  */
 var maxAreaOfIsland = function(grid) {
-    
+    let path = new Set();
+    let res = 0;
+    let dfs = function(row, col) {
+        if (row < 0 || row >= grid.length ||
+            col < 0 || col >= grid[0].length)
+            return 0;
+        if (grid[row][col] === 0) return 0;
+        let str = row + "," + col;
+        if (path.has(str)) return 0;
+        path.add(str);
+        let total = 1 + dfs(row - 1, col) +
+                    dfs(row + 1, col) +
+                    dfs(row, col + 1) +
+                    dfs(row, col - 1)
+        return total;
+    }
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            res = Math.max(res, dfs(i, j));
+        }
+    }
+
+    return res;
 };
 
 let grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]];
