@@ -8,50 +8,95 @@
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
-var canFinish = function(numCourses, prerequisites) {
+ var canFinish = function(numCourses, prerequisites) {
     let hashMap = new Map();
     for (let i = 0; i < prerequisites.length; i++) {
         if (!hashMap.has(prerequisites[i][0])) {
-            hashMap.set(prerequisites[i][0], [prerequisites[i][1]])
+            let arr = [];
+            arr.push(prerequisites[i][1]);
+            hashMap.set(prerequisites[i][0], arr);
         } else {
             let arr = hashMap.get(prerequisites[i][0]);
-            arr.push(prerequisites[i][1]);
-            hashMap.set(prerequisites[i][0], arr)
+            arr.push(prerequisites[i][1])
+            hashMap.set(prerequisites[i][0], arr);
         }
     }
-    let visit = new Set();
 
+    // we will use a set() named cycle to catch the node we are visiting
+    // we will use a set() named visited to catch the node that we have visited
+    let cycle = new Set();
+    let visited = new Set();
     let dfs = function(index) {
-        // it means that there is a loop
-        // 当前这个branch经过了这个index
-        if (visit.has(index)) {
+        if (cycle.has(index)) {
             return false;
         }
-        // it means that we arrive in the leave (which doesn't have a child node)
-        if (hashMap.get(index) === undefined) 
+        if (visited.has(index)) {
             return true;
-
-        visit.add(index);
-        let arr = hashMap.get(index) 
-        let res = true;
-        // 结果有一个false就都得为false
-        for (let i = 0; i < arr.length; i++) {
-            res = res && dfs(arr[i]);
         }
-        hashMap.delete(index);
-        visit.delete(index);
-        return res;
+        // it means all the neightbour nodes
+        let adjents = hashMap.get(index)
+        cycle.add(index);
+        if (adjents !== undefined) {
+            for (let i = 0; i < adjents.length; i++) {
+                if (!dfs(adjents[i])) 
+                    return false;
+            }
+        }
+        cycle.delete(index); // it means we finished being the node
+        visited.add(index); // it menas that we have finished visiting the node
+        return true;
     }
-
-
-    for (let i = 0; i < numCourses; i++) {
-        if (!dfs(i))
+    for (let i = 0; i < prerequisites.length; i++) {
+        if (!dfs(prerequisites[i][0]))
             return false;
     }
     return true;
 };
 
+// var canFinish = function(numCourses, prerequisites) {
+//     let hashMap = new Map();
+//     for (let i = 0; i < prerequisites.length; i++) {
+//         if (!hashMap.has(prerequisites[i][0])) {
+//             hashMap.set(prerequisites[i][0], [prerequisites[i][1]])
+//         } else {
+//             let arr = hashMap.get(prerequisites[i][0]);
+//             arr.push(prerequisites[i][1]);
+//             hashMap.set(prerequisites[i][0], arr)
+//         }
+//     }
+//     let visit = new Set();
+
+//     let dfs = function(index) {
+//         // it means that there is a loop
+//         // 当前这个branch经过了这个index
+//         if (visit.has(index)) {
+//             return false;
+//         }
+//         // it means that we arrive in the leave (which doesn't have a child node)
+//         if (hashMap.get(index) === undefined) 
+//             return true;
+
+//         visit.add(index);
+//         let arr = hashMap.get(index) 
+//         let res = true;
+//         // 结果有一个false就都得为false
+//         for (let i = 0; i < arr.length; i++) {
+//             res = res && dfs(arr[i]);
+//         }
+//         hashMap.delete(index);
+//         visit.delete(index);
+//         return res;
+//     }
+
+
+//     for (let i = 0; i < numCourses; i++) {
+//         if (!dfs(i))
+//             return false;
+//     }
+//     return true;
+// };
+
 let numCourses = 3, prerequisites = [[1,0],[1,2],[0,1]];
 let numCourses1 = 2, prerequisites1 = [[1,0],[0,1]];
 console.log(canFinish(numCourses, prerequisites));
-// console.log(canFinish(numCourses1, prerequisites1));
+console.log(canFinish(numCourses1, prerequisites1));
