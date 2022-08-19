@@ -9,7 +9,41 @@
  * @return {number[]}
  */
 var findOrder = function(numCourses, prerequisites) {
-    
+    let hashMap = new Map();
+    for (let i = 0; i < prerequisites.length; i++) {
+        if (!hashMap.has(prerequisites[i][0])) {
+            let arr = [];
+            arr.push(prerequisites[i][1]);
+            hashMap.set(prerequisites[i][0], arr);
+        } else {
+            let arr = hashMap.get(prerequisites[i][0]);
+            arr.push(prerequisites[i][1]);
+            hashMap.set(prerequisites[i][0], arr);
+        }
+    }
+    let visited = new Set(), cycle = new Set();
+    let output = [];
+    let dfs = function(index) {
+        if (cycle.has(index)) return false;
+        if (visited.has(index)) return true;
+        cycle.add(index);
+        let adjacents = hashMap.get(index);
+        if (adjacents !== undefined) {
+            for(let i = 0; i < adjacents.length; i++) {
+                if (!dfs(adjacents[i])) 
+                    return false;
+            }
+        }
+        output.push(index);
+        cycle.delete(index);
+        visited.add(index);
+        return true;
+    }
+    for (let i = 0; i < numCourses; i++) {
+        if (!dfs(i)) 
+            return [];
+    }
+    return output;
 };
 
 let numCourses = 2, prerequisites = [[1,0]];
