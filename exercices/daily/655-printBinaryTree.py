@@ -20,11 +20,12 @@ class Solution:
             if root == None:
                 return -1
             return 1 + max(getHeight(root.left), getHeight(root.right))
-        
+        # 这道题主要是先确定这个list的rowLen 和 colLen
         height = getHeight(root) + 1
         width = 2**height - 1
         res = [["" for col in range(width)] for row in range(height)] 
-        
+        # 我们知道root，会填在中间
+        # 然后再填两边的子节点，所以height要+1 left 或者 right要变化
         def fillArray(root, h, left, right):
             if h >= height or root == None or left > right:
                 return
