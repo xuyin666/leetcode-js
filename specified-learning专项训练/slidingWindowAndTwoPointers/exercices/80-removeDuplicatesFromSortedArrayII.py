@@ -7,14 +7,17 @@
 from typing import List
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        if len(nums) <= 1:
-            return len(nums)
-        i = 1
-        j = 1
-        while j < len(nums):
-            if nums[j] > nums[j - 1]:
-                nums[i] = nums[j]
-                i = i + 1
-            j = j + 1
-        return i
+        # 从i到j 只包含次数少于2次的值
+        if len(nums) <= 2: return len(nums)
+        j = 2
+        for i in range(2, len(nums)):
+            # 如果nums[i] == nums[j - 2] 则证明有在 j-2 到 i 中至少有三个elem
+            if nums[i] != nums[j - 2]:
+                nums[j] = nums[i]
+                j = j + 1
+        return j
 
+nums = [1,1,1,2,2,3]
+print(Solution().removeDuplicates(nums))
+nums = [0,0,1,1,1,1,2,3,3]
+print(Solution().removeDuplicates(nums))
