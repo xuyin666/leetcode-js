@@ -10,6 +10,7 @@ from typing import List
 class Solution:
     def longestMountain(self, arr: List[int]) -> int:
         # 弄两个数组，一个代表down的最大值，一个代表up的最大值
+        # 只有当up[i] and down[i] > 1时 i才能作为山顶
         if len(arr) < 3: return 0
         up = [1] * len(arr)
         down = [1] * len(arr)
